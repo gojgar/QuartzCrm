@@ -1,2 +1,2 @@
 # QuartzCrm
-aplicatie care trimite e-mailulri pe scheduler
+aplicatie care trimite e-mailuri pe scheduler
