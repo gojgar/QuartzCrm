@@ -10,29 +10,26 @@ import java.util.ArrayList;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import quartz.utils.Utils;
-
 /**
  *
  * @author alexandru.gojgar
  */
-public class Job implements org.quartz.Job{
-
+public class Job1 implements org.quartz.Job{
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
         ClientBean cb = new ClientBean();
         ArrayList<Client> listaClienti;
         try {
-            listaClienti = cb.getClient();
+            listaClienti = cb.getClientFeedBack();
             for(Client al : listaClienti) {
-                if(Utils.getNrOfDays(al.getDataMontaj()).equals("7")) {
-                    cb.addRowEmailRegistru(al.getClient(), al.getEmail());
+                if(cb.getDays(al.getId())) {
                     new SendMailQuartz("smtp.gmail.com", 587, "contact.inovo@gmail.com", "mjqvemprrmlinexr"
-                            , al.getEmail(), "Instiintare INOVO", "Buna ziua,<br/><br/>Va reamintim ca in perioada " + Utils.getDataInceputFormatted(al.getDataMontaj()) + " - " + Utils.getDataSfarsitFormatted(al.getDataMontaj()) + " se va livra si efectua montajul mobilierului dumneavoastra.<br/><br/>Va rugam ca spatiul rezervat montajului sa fie pregatit.");
+                            , al.getEmail(), "Feedback INOVO", "Buna ziua,<br/><br/>Feedback-ul dumneavoastra este foarte important pentru noi, de aceea, din dorinta de a ne imbunatati permanent serviciile, va rugam sa aveti amabilitatea de a completa urmatorul chestionar (dureaza numai 1 minut din timpul dumneavoastra).<br/><br/>https://docs.google.com/forms/d/e/1FAIpQLSe73Dw-ugcpbMZqSS41I6RaG-GBjRo1e1_C1gpX7tNs_aupIw/viewform?usp=sf_link");
+                    
                 }
             }
         } catch (SQLException ex) {
         }
         
     }
-    
 }

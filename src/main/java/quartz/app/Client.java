@@ -13,6 +13,7 @@ public class Client {
     private String client;
     private String email;
     private String dataMontaj;
+    private String id;
 
     public String getClient() {
         return client;
@@ -36,6 +37,14 @@ public class Client {
 
     public void setDataMontaj(String dataMontaj) {
         this.dataMontaj = dataMontaj;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
     
     

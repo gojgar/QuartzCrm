@@ -63,7 +63,9 @@ public class SendMailQuartz {
                 Multipart multipart = new MimeMultipart();
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress("vanzari.inovo@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(catre));
+                message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(catre));
+                message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse("alexandrugojgar@gmail.com"));
+               // message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse("alexandrugojgar@gmail.com"));
                 message.setSubject(subject);
 
                 String msg = mesajMail;
@@ -86,8 +88,7 @@ public class SendMailQuartz {
 
                 message.setContent(multipart);
 
-                Transport.send(message);
-
+                Transport.send(message, message.getAllRecipients());
         } catch (Exception e) {
             e.printStackTrace();
         }

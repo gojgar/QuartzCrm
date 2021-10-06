@@ -67,6 +67,57 @@ public class DataSourceConn {
         return continut_baza_de_date;
     }
     
+    public List<ArrayList<Object>> getResultsClientsFeedBack() throws SQLException, Exception {
+        ResultSet rs = null;
+        String error = null;
+        String queryString = "SELECT CONCAT(nume,' ', prenume) denumire_client, email, id FROM clienti";
+        List<ArrayList<Object>> continut_baza_de_date = null;
+        try (PreparedStatement stmt = conn.prepareStatement(queryString)){
+            continut_baza_de_date = new ArrayList<>(); 
+            rs = stmt.executeQuery(queryString);
+            while (rs.next()) {
+                ArrayList<Object> rand = new ArrayList<>();
+                for (int coloana = 0; coloana < 3; coloana++) {
+                    rand.add(rs.getObject(coloana + 1));
+                }
+                continut_baza_de_date.add(rand);
+            }
+        } catch (SQLException sqle) {
+            error = "SQLException: Interogarea nu a fost posibila.";
+            throw new SQLException(error);
+        } catch (Exception e) {
+            error = "A aparut o exceptie in timp ce se extrageau datele.";
+            throw new Exception(error);
+        }
+        
+        return continut_baza_de_date;
+    }
+    
+    public boolean difData(String id) throws SQLException, Exception {
+        ResultSet rs = null;
+        String error = null;
+        boolean rez = false;
+        String queryString = "select DATEDIFF(CURDATE(),data_introducere) DIF "
+                + "from clienti where id = " + id;
+        try (PreparedStatement stmt = conn.prepareStatement(queryString)){
+            rs = stmt.executeQuery(queryString);
+            if (rs.next()) {
+                //System.out.println("DIF: " + String.valueOf(rs.getObject(1)));
+                if(Double.parseDouble(String.valueOf(rs.getObject(1))) == 2.0) {
+                    rez = true;
+                }
+            }
+        } catch (SQLException sqle) {
+            error = "SQLException: Interogarea nu a fost posibila.";
+            throw new SQLException(error);
+        } catch (Exception e) {
+            error = "A aparut o exceptie in timp ce se extrageau datele.";
+            throw new Exception(error);
+        }
+        
+        return rez;
+    }
+    
     public void adaugaEmailTrimis(String client, String email) throws SQLException, Exception {
         String error = null;
         if (conn != null) {
@@ -95,6 +146,25 @@ public class DataSourceConn {
         ResultSet rs = null;
         String error = null;
         String queryString = "SELECT valoare from config where nume = 'CRON_EXPR'";
+        try (PreparedStatement stmt = conn.prepareStatement(queryString)){
+            rs = stmt.executeQuery(queryString);
+            if (rs.next()) {
+                return rs.getObject(1).toString();
+            }
+        } catch (SQLException sqle) {
+            error = "SQLException: Interogarea nu a fost posibila.";
+            throw new SQLException(error);
+        } catch (Exception e) {
+            error = "A aparut o exceptie in timp ce se extrageau datele.";
+            throw new Exception(error);
+        }
+        return null;
+    }
+    
+    public String getCronExprFeedback() throws SQLException, Exception {
+        ResultSet rs = null;
+        String error = null;
+        String queryString = "SELECT valoare from config where nume = 'CRON_EXPR_FEEDBACK'";
         try (PreparedStatement stmt = conn.prepareStatement(queryString)){
             rs = stmt.executeQuery(queryString);
             if (rs.next()) {
