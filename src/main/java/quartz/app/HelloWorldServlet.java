@@ -43,26 +43,26 @@ public class HelloWorldServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-
+            /*
             JobDetail job = new JobDetail();
             job.setName("dummyJobName");
             job.setJobClass(Job.class);
-            
+            */
             JobDetail job1 = new JobDetail();
             job1.setName("dummyJob1Name");
             job1.setJobClass(Job1.class);
-            
+            /*
             CronTrigger trigger = new CronTrigger();
             trigger.setName("TriggerName");
             trigger.setCronExpression(new ClientBean().getCronExpr());
-            
+            */
             CronTrigger trigger1 = new CronTrigger();
             trigger1.setName("TriggerName1");
             trigger1.setCronExpression(new ClientBean().getCronExprFeedback());
-
+            
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.start();
-            scheduler.scheduleJob(job, trigger);
+            //scheduler.scheduleJob(job, trigger);
             scheduler.scheduleJob(job1, trigger1);
 
         } catch (SchedulerException ex) {
