@@ -24,7 +24,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 /**
  *
- * @author alexandru.gojgar
+ * @author alexandru.gojgar let's try
  */
 @WebServlet(name = "HelloWorldServlet", urlPatterns = {"/HelloWorldServlet"})
 public class HelloWorldServlet extends HttpServlet {
