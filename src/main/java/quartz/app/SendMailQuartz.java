@@ -75,7 +75,7 @@ public class SendMailQuartz {
                 multipart.addBodyPart(mimeBodyPart);
                 mimeBodyPart = new MimeBodyPart();
                 DataSource fds = new FileDataSource(
-                    new File("/opt/files/logo.png"));
+                    new File("/opt/files/templates/logo.png"));
 
                  mimeBodyPart.setDataHandler(new DataHandler(fds));
                  mimeBodyPart.setHeader("Content-ID", "<image>");
