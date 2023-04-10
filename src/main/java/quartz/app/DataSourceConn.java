@@ -66,7 +66,35 @@ public class DataSourceConn {
         
         return continut_baza_de_date;
     }
-    
+
+    public List<ArrayList<Object>> getResultsEvents(String dataStart, String dataEnd) throws SQLException, Exception {
+        ResultSet rs = null;
+        String error = null;
+        String queryString = "SELECT e.name, e.start, l.email FROM events e, login l where e.start >= '" + dataStart + "' and e.start < '" + dataEnd + "' and e.agent = l.username";
+        List<ArrayList<Object>> continut_baza_de_date = null;
+        System.out.println("query" + queryString);
+        try (PreparedStatement stmt = conn.prepareStatement(queryString)){
+            continut_baza_de_date = new ArrayList<>();
+            rs = stmt.executeQuery(queryString);
+            while (rs.next()) {
+                ArrayList<Object> rand = new ArrayList<>();
+                for (int coloana = 0; coloana < 3; coloana++) {
+                    rand.add(rs.getObject(coloana + 1));
+                }
+                continut_baza_de_date.add(rand);
+            }
+        } catch (SQLException sqle) {
+            error = "SQLException: Interogarea nu a fost posibila.";
+            sqle.printStackTrace();
+            throw new SQLException(error);
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = "A aparut o exceptie in timp ce se extrageau datele.";
+            throw new Exception(error);
+        }
+
+        return continut_baza_de_date;
+    }
     public List<ArrayList<Object>> getResultsClientsFeedBack() throws SQLException, Exception {
         ResultSet rs = null;
         String error = null;
@@ -165,6 +193,24 @@ public class DataSourceConn {
         ResultSet rs = null;
         String error = null;
         String queryString = "SELECT valoare from config where nume = 'CRON_EXPR_FEEDBACK'";
+        try (PreparedStatement stmt = conn.prepareStatement(queryString)){
+            rs = stmt.executeQuery(queryString);
+            if (rs.next()) {
+                return rs.getObject(1).toString();
+            }
+        } catch (SQLException sqle) {
+            error = "SQLException: Interogarea nu a fost posibila.";
+            throw new SQLException(error);
+        } catch (Exception e) {
+            error = "A aparut o exceptie in timp ce se extrageau datele.";
+            throw new Exception(error);
+        }
+        return null;
+    }
+    public String getCronExprEvent() throws SQLException, Exception {
+        ResultSet rs = null;
+        String error = null;
+        String queryString = "SELECT valoare from config where nume = 'CRON_EXPR_EVENT'";
         try (PreparedStatement stmt = conn.prepareStatement(queryString)){
             rs = stmt.executeQuery(queryString);
             if (rs.next()) {

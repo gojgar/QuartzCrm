@@ -71,7 +71,7 @@ public class SendMailQuartz {
                 String msg = mesajMail;
 
                 BodyPart mimeBodyPart = new MimeBodyPart();
-                mimeBodyPart.setContent(msg + "<br/><br/> Multumesc,<br/> <b>Inovo Mobili</b> <br/><img src=\"cid:image\">", "text/html");
+                mimeBodyPart.setContent(msg + "<br/><br/> Multumesc,<br/> <b>Inovo Mobili</b> <br/><img src=\"cid:image\" style=\"width:300px\">", "text/html");
                 multipart.addBodyPart(mimeBodyPart);
                 mimeBodyPart = new MimeBodyPart();
                 DataSource fds = new FileDataSource(

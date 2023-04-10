@@ -51,6 +51,9 @@ public class HelloWorldServlet extends HttpServlet {
             JobDetail job1 = new JobDetail();
             job1.setName("dummyJob1Name");
             job1.setJobClass(Job1.class);
+            JobDetail job2 = new JobDetail();
+            job2.setName("dummyJob2Name");
+            job2.setJobClass(Job2.class);
             /*
             CronTrigger trigger = new CronTrigger();
             trigger.setName("TriggerName");
@@ -59,15 +62,20 @@ public class HelloWorldServlet extends HttpServlet {
             CronTrigger trigger1 = new CronTrigger();
             trigger1.setName("TriggerName1");
             trigger1.setCronExpression(new ClientBean().getCronExprFeedback());
+            CronTrigger trigger2 = new CronTrigger();
+            trigger2.setName("TriggerName2");
+            trigger2.setCronExpression(new ClientBean().getCronExprEvent());
             
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.start();
-            //scheduler.scheduleJob(job, trigger);
+            scheduler.scheduleJob(job2, trigger2);
             scheduler.scheduleJob(job1, trigger1);
 
         } catch (SchedulerException ex) {
+            ex.printStackTrace();
             out.print("Error1");
         } catch (ParseException ex) {
+            ex.printStackTrace();
             out.print("Error2");
         } finally {
             out.close();

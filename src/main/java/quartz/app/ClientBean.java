@@ -7,6 +7,8 @@ package quartz.app;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -75,6 +77,38 @@ public class ClientBean {
         }
         return list_client;
      }
+
+    public ArrayList<Event> getExprEvent() throws SQLException {
+        ArrayList<Event> list_client = new ArrayList<Event>();
+        DataSource ds = null;
+        Connection conn = null;
+        List<ArrayList<Object>> resultSet = null;
+
+        try {
+
+            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
+            conn = ds.getConnection();
+            conn.setAutoCommit(false);
+            DataSourceConn dsConn = new DataSourceConn(ds, conn);
+            LocalDateTime startDate = LocalDateTime.now();
+            LocalDateTime endDate = startDate.plusMinutes(30);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            resultSet = dsConn.getResultsEvents(startDate.format(dtf), endDate.format(dtf));
+
+            for(ArrayList<Object> al : resultSet){
+                Event clientBean = new Event();
+                clientBean.setDescriere(al.get(0).toString());
+                clientBean.setDataStart(al.get(1).toString());
+                clientBean.setEmail(al.get(2).toString());
+                list_client.add(clientBean);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if (conn != null) conn.close();
+        }
+        return list_client;
+    }
     
     public void addRowEmailRegistru(String client, String email) throws SQLException {
         DataSource ds = null;
@@ -141,6 +175,29 @@ public class ClientBean {
         
         return result;
      }
+
+    public String getCronExprEvent() throws SQLException {
+        DataSource ds = null;
+        Connection conn = null;
+        String result = null;
+
+        try {
+
+            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
+            conn = ds.getConnection();
+            conn.setAutoCommit(false);
+            DataSourceConn dsConn = new DataSourceConn(ds, conn);
+
+            result = dsConn.getCronExprEvent();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if (conn != null) conn.close();
+        }
+
+        return result;
+    }
     
     public boolean getDays(String idClient) throws SQLException {
         DataSource ds = null;
