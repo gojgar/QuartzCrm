@@ -29,8 +29,10 @@ public class SendMailQuartz {
     private String subject = "";
     private String mesajMail = "";
 
+    private String greeting = "";
 
-    public SendMailQuartz(String host, int port, String username, String password, String catre, String subject, String mesajMail) {
+
+    public SendMailQuartz(String host, int port, String username, String password, String catre, String subject, String mesajMail, String greeting) {
 
         this.host = host;
         this.port = port;
@@ -39,6 +41,7 @@ public class SendMailQuartz {
         this.catre = catre;
         this.subject = subject;
         this.mesajMail = mesajMail;
+        this.greeting = greeting;
 
         sendMail();
     }
@@ -71,7 +74,7 @@ public class SendMailQuartz {
                 String msg = mesajMail;
 
                 BodyPart mimeBodyPart = new MimeBodyPart();
-                mimeBodyPart.setContent(msg + "<br/><br/> Multumesc,<br/> <b>Inovo Mobili</b> <br/><img src=\"cid:image\" style=\"width:300px\">", "text/html");
+                mimeBodyPart.setContent(msg + "<br/><br/> " + this.greeting + ",<br/> <img src=\"cid:image\" style=\"width:300px\">", "text/html");
                 multipart.addBodyPart(mimeBodyPart);
                 mimeBodyPart = new MimeBodyPart();
                 DataSource fds = new FileDataSource(
@@ -82,7 +85,7 @@ public class SendMailQuartz {
 //                MimeBodyPart attachmentBodyPart = new MimeBodyPart();
 //                attachmentBodyPart.attachFile(new File("pom.xml"));
 
-                
+
                 multipart.addBodyPart(mimeBodyPart);
                 //multipart.addBodyPart(attachmentBodyPart);
 

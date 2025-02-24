@@ -18,165 +18,53 @@ import javax.sql.DataSource;
  * @author alexandru.gojgar
  */
 public class ClientBean {
-    public ArrayList<Client> getClient() throws SQLException {
-        ArrayList<Client> list_client = new ArrayList<Client>();
+    public String getCronExprVanzari15() throws SQLException {
         DataSource ds = null;
         Connection conn = null;
-        List<ArrayList<Object>> resultSet = null;
+        String result = null;
 
         try {
-            
+
             ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
             conn = ds.getConnection();
             conn.setAutoCommit(false);
             DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            
-            resultSet = dsConn.getResultsClients();
-            
-            for(ArrayList<Object> al : resultSet){
-                Client clientBean = new Client();
-                clientBean.setClient(al.get(0).toString());
-                clientBean.setEmail(al.get(1).toString());
-                clientBean.setDataMontaj(al.get(2).toString());
-                list_client.add(clientBean);
-            }
+
+            result = dsConn.getCronExprVanzari15();
+
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
             if (conn != null) conn.close();
         }
-        return list_client;
-     }
-    
-    public ArrayList<Client> getClientFeedBack() throws SQLException {
-        ArrayList<Client> list_client = new ArrayList<Client>();
-        DataSource ds = null;
-        Connection conn = null;
-        List<ArrayList<Object>> resultSet = null;
 
-        try {
-            
-            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
-            conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            
-            resultSet = dsConn.getResultsClientsFeedBack();
-            
-            for(ArrayList<Object> al : resultSet){
-                Client clientBean = new Client();
-                clientBean.setClient(al.get(0).toString());
-                clientBean.setEmail(al.get(1).toString());
-                clientBean.setId(al.get(2).toString());
-                list_client.add(clientBean);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (conn != null) conn.close();
-        }
-        return list_client;
+        return result;
      }
 
-    public ArrayList<Event> getExprEvent() throws SQLException {
-        ArrayList<Event> list_client = new ArrayList<Event>();
-        DataSource ds = null;
-        Connection conn = null;
-        List<ArrayList<Object>> resultSet = null;
+    public String getCronExprVanzari25() throws SQLException {
+      DataSource ds = null;
+      Connection conn = null;
+      String result = null;
 
-        try {
+      try {
 
-            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
-            conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            LocalDateTime startDate = LocalDateTime.now();
-            LocalDateTime endDate = startDate.plusMinutes(30);
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            resultSet = dsConn.getResultsEvents(startDate.format(dtf), endDate.format(dtf));
+        ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
+        conn = ds.getConnection();
+        conn.setAutoCommit(false);
+        DataSourceConn dsConn = new DataSourceConn(ds, conn);
 
-            for(ArrayList<Object> al : resultSet){
-                Event clientBean = new Event();
-                clientBean.setDescriere(al.get(0).toString());
-                clientBean.setDataStart(al.get(1).toString());
-                clientBean.setEmail(al.get(2).toString());
-                list_client.add(clientBean);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (conn != null) conn.close();
-        }
-        return list_client;
+        result = dsConn.getCronExprVanzari25();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{
+        if (conn != null) conn.close();
+      }
+
+      return result;
     }
-    
-    public void addRowEmailRegistru(String client, String email) throws SQLException {
-        DataSource ds = null;
-        Connection conn = null;
 
-        try {
-            
-            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
-            conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            
-            dsConn.adaugaEmailTrimis(client, email);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (conn != null) conn.close();
-        }
-     }
-    
-    public String getCronExpr() throws SQLException {
-        DataSource ds = null;
-        Connection conn = null;
-        String result = null;
-
-        try {
-            
-            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
-            conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            
-            result = dsConn.getCronExpr();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (conn != null) conn.close();
-        }
-        
-        return result;
-     }
-    
-    public String getCronExprFeedback() throws SQLException {
-        DataSource ds = null;
-        Connection conn = null;
-        String result = null;
-
-        try {
-            
-            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
-            conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            
-            result = dsConn.getCronExprFeedback();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (conn != null) conn.close();
-        }
-        
-        return result;
-     }
-
-    public String getCronExprEvent() throws SQLException {
+    public String getCronExprVanzariL() throws SQLException {
         DataSource ds = null;
         Connection conn = null;
         String result = null;
@@ -188,7 +76,7 @@ public class ClientBean {
             conn.setAutoCommit(false);
             DataSourceConn dsConn = new DataSourceConn(ds, conn);
 
-            result = dsConn.getCronExprEvent();
+            result = dsConn.getCronExprVanzariL();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,28 +85,52 @@ public class ClientBean {
         }
 
         return result;
+     }
+
+    public String getCronExprReminderMorning() throws SQLException {
+      DataSource ds = null;
+      Connection conn = null;
+      String result = null;
+
+      try {
+
+        ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
+        conn = ds.getConnection();
+        conn.setAutoCommit(false);
+        DataSourceConn dsConn = new DataSourceConn(ds, conn);
+
+        result = dsConn.getCronExprReminderMorning();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{
+        if (conn != null) conn.close();
+      }
+
+      return result;
     }
-    
-    public boolean getDays(String idClient) throws SQLException {
-        DataSource ds = null;
-        Connection conn = null;
-        boolean result = false;
 
-        try {
-            
-            ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
-            conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            DataSourceConn dsConn = new DataSourceConn(ds, conn);
-            
-            result = dsConn.difData(idClient);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (conn != null) conn.close();
-        }
-        
-        return result;
-     }
-}
+    public String getCronExprReminderLunch() throws SQLException {
+      DataSource ds = null;
+      Connection conn = null;
+      String result = null;
+
+      try {
+
+        ds = DataSourceConn.getDataSource("jdbc/DVHAuthConnDS");
+        conn = ds.getConnection();
+        conn.setAutoCommit(false);
+        DataSourceConn dsConn = new DataSourceConn(ds, conn);
+
+        result = dsConn.getCronExprReminderLunch();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{
+        if (conn != null) conn.close();
+      }
+
+      return result;
+    }
+
+  }

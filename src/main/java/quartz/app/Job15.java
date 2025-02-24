@@ -5,17 +5,18 @@
  */
 package quartz.app;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import quartz.utils.Utils;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
  * @author alexandru.gojgar
  */
-public class Job implements org.quartz.Job{
+public class Job15 implements org.quartz.Job{
 
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
@@ -37,10 +38,16 @@ public class Job implements org.quartz.Job{
                   sumaRamasa = Double.parseDouble("250000") - sumaLuna;
                   sumaTotala = Double.parseDouble("250000");
                 }
+
                     new SendMailQuartz("smtp.gmail.com", 587, "contact.inovo@gmail.com", "mjqvemprrmlinexr"
-                            , vb.vedeEmailAgent(al.getAgent()), "Situație vanzari final de " + Utils.getCurrentMonth() + " INOVO",
-                      "Buna " + Utils.formatAgent(al.getAgent()) + ",<br/><br/>" + (sumaRamasa > 0.0? "&#128546; Nu ai atins target-ul, mai aveai inca " + Utils.formatPercentage(sumaRamasa, sumaTotala) + "%. Luna viitoare iti uram succes!": "Bravooooo &#128522;<br/><br/> Ai depasit target-ul cu " + Utils.formatPercentage(Math.abs(sumaRamasa), sumaTotala) +
-                        "%" ) + ".<br/>", ((sumaRamasa > 0.0) ? "Succes": "Felicitari"));
+                            , vb.vedeEmailAgent(al.getAgent()), "Situație vanzari " + Utils.getCurrentMonth() + " INOVO",
+                      "Buna " + Utils.formatAgent(al.getAgent()) + ",<br/><br/>Suntem la jumatatea lunii, iar pana acum ai realizat " + Utils.formatValues(sumaLuna) + " RON " +
+                        "din obiectivul tau lunar de " + (al.getAgent().equals("mihaela")? "175.000": "250.000") + " RON, adica " +
+                        Utils.formatPercentage(sumaLuna, sumaTotala) + "%. " + ((sumaRamasa > 0.0)? "Mai ai de atins " + Utils.formatValues(sumaRamasa) + " RON, adica " + Utils.formatPercentage(sumaRamasa, sumaTotala) +
+                        "% pentru a-ti indeplini targetul.": "Ti-ai depasit target-ul cu " + Utils.formatValues(Math.abs(sumaRamasa)) + " RON, adica " + Utils.formatPercentage(Math.abs(sumaRamasa), sumaTotala) + "%.") +
+                        "<br/><br/>" +
+                        ((sumaRamasa < sumaTotala / 2)? "Te incurajez sa continui in acelasi ritm si sa iti concentrezi eforturile pe oportunitatile existente." : "Te incurajez sa te concentrezi pe clientii calificati produselor INOVO." )+ "<br/>"
+                    , ((sumaRamasa > 0.0) ? "Succes": "Felicitari"));
 
               }
             }

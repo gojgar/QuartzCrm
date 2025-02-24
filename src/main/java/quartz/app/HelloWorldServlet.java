@@ -43,33 +43,57 @@ public class HelloWorldServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /*
-            JobDetail job = new JobDetail();
-            job.setName("dummyJobName");
-            job.setJobClass(Job.class);
-            */
-            JobDetail job1 = new JobDetail();
-            job1.setName("dummyJob1Name");
-            job1.setJobClass(Job1.class);
-            JobDetail job2 = new JobDetail();
-            job2.setName("dummyJob2Name");
-            job2.setJobClass(Job2.class);
-            /*
-            CronTrigger trigger = new CronTrigger();
-            trigger.setName("TriggerName");
-            trigger.setCronExpression(new ClientBean().getCronExpr());
-            */
-            CronTrigger trigger1 = new CronTrigger();
-            trigger1.setName("TriggerName1");
-            trigger1.setCronExpression(new ClientBean().getCronExprFeedback());
-            CronTrigger trigger2 = new CronTrigger();
-            trigger2.setName("TriggerName2");
-            trigger2.setCronExpression(new ClientBean().getCronExprEvent());
-            
+            // mail sales
+            JobDetail jobSales15 = new JobDetail();
+            jobSales15.setName("jobSales15");
+            jobSales15.setJobClass(Job15.class);
+
+            JobDetail jobSales25 = new JobDetail();
+            jobSales25.setName("jobSales25");
+            jobSales25.setJobClass(Job25.class);
+
+            JobDetail jobSalesLastDayMonth = new JobDetail();
+            jobSalesLastDayMonth.setName("jobSalesLastDayMonth");
+            jobSalesLastDayMonth.setJobClass(Job.class);
+
+            // mail reminder
+            JobDetail jobReminderMorning = new JobDetail();
+            jobReminderMorning.setName("jobReminderMorning");
+            jobReminderMorning.setJobClass(JobMorning.class);
+
+            JobDetail jobReminderLunch = new JobDetail();
+            jobReminderLunch.setName("jobReminderLunch");
+            jobReminderLunch.setJobClass(JobLunch.class);
+
+            // trigger sales
+            CronTrigger triggerSales15 = new CronTrigger();
+            triggerSales15.setName("triggerSales15");
+            triggerSales15.setCronExpression(new ClientBean().getCronExprVanzari15());
+
+            CronTrigger triggerSales25 = new CronTrigger();
+            triggerSales25.setName("triggerSales25");
+            triggerSales25.setCronExpression(new ClientBean().getCronExprVanzari25());
+
+            CronTrigger triggerSalesLastDayMonth = new CronTrigger();
+            triggerSalesLastDayMonth.setName("triggerSalesLastDayMonth");
+            triggerSalesLastDayMonth.setCronExpression(new ClientBean().getCronExprVanzariL());
+
+            // trigger reminder
+            CronTrigger triggerReminderMorning = new CronTrigger();
+            triggerReminderMorning.setName("triggerReminderMorning");
+            triggerReminderMorning.setCronExpression(new ClientBean().getCronExprReminderMorning());
+
+            CronTrigger triggerReminderLunch = new CronTrigger();
+            triggerReminderLunch.setName("triggerReminderLunch");
+            triggerReminderLunch.setCronExpression(new ClientBean().getCronExprReminderLunch());
+
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.start();
-            scheduler.scheduleJob(job2, trigger2);
-            scheduler.scheduleJob(job1, trigger1);
+            scheduler.scheduleJob(jobSales15, triggerSales15);
+            scheduler.scheduleJob(jobSales25, triggerSales25);
+            scheduler.scheduleJob(jobSalesLastDayMonth, triggerSalesLastDayMonth);
+            scheduler.scheduleJob(jobReminderMorning, triggerReminderMorning);
+            scheduler.scheduleJob(jobReminderLunch, triggerReminderLunch);
 
         } catch (SchedulerException ex) {
             ex.printStackTrace();

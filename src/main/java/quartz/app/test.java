@@ -5,9 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class test {
     public static void main(String[] args) {
-        LocalDateTime ldt = LocalDateTime.now();
-        LocalDateTime ldt1 = ldt.plusMinutes(30);
+      double part = 1.0;
+      double total = 7;
 
-        System.out.println(ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+        System.out.println(part > 0.0);
     }
 }
